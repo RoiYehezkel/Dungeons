@@ -2,6 +2,8 @@ package myGame.graphics;
 
 import java.util.Random;
 
+import myGame.level.tile.Tile;
+
 public class Screen {
 
 	private int width, height;
@@ -32,15 +34,28 @@ public class Screen {
 		for (int y = 0; y < height; y++) {
 			int yp = y + yOffset;
 			if (yp < 0 || yp >= height)
-				continue;
+				continue; // out of bounds
 			for (int x = 0; x < width; x++) {
 				int xp = x + xOffset;
 				if (xp < 0 || xp >= width)
-					continue;
+					continue; // out of bounds
 				pixels[xp + yp * width] = Sprite.grass.pixels[(x & 15) + (y & 15) * Sprite.grass.SIZE];
 
 			}
 		}
+	}
+
+	public void renderTile(int xp, int yp, Tile tile) {
+		for (int y = 0; y < tile.sprite.SIZE; y++) {
+			int ya = yp + y; // setting the offset of y
+			for (int x = 0; x < tile.sprite.SIZE; x++) {
+				int xa = xp + x; // setting the offset of x
+				if (xa < 0 || xa >= width || ya < 0 || ya >= width)
+					break; // out of bounds
+				pixels[xa + ya * width] = tile.sprite.pixels[x + y * tile.sprite.SIZE];
+			}
+		}
+
 	}
 
 }
