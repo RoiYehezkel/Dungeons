@@ -34,13 +34,23 @@ public class Level {
 	}
 
 	public void render(int xScroll, int yScroll, Screen screen) {
-		int x0 = xScroll >> 4;
-		int x1 = (xScroll + screen.width) >> 4;
-		int y0 = yScroll >> 4;
-		int y1 = (yScroll + screen.height) >> 4;
+		screen.setOffset(xScroll, yScroll);
+		int x0 = xScroll >> 4; // left map bound
+		int x1 = (xScroll + screen.width + 16) >> 4; // right map bound
+		int y0 = yScroll >> 4; // upper map bound
+		int y1 = (yScroll + screen.height+16) >> 4; // lower map bound
+
+		for (int y = y0; y < y1; y++) {
+			for (int x = x0; x < x1; x++) {
+				getTile(x, y).render(x, y, screen); // render every tile
+
+			}
+		}
 	}
 
 	public Tile getTile(int x, int y) {
+		if (x < 0 || y < 0 || x >= width || y >= height)
+			return Tile.voidTile;
 		if (tiles[x + y * width] == 0)
 			return Tile.grass;
 		return Tile.voidTile;

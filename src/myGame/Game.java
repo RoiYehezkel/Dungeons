@@ -12,6 +12,8 @@ import javax.swing.JFrame;
 
 import myGame.graphics.Screen;
 import myGame.input.Keyboard;
+import myGame.level.Level;
+import myGame.level.RandomLevel;
 
 public class Game extends Canvas implements Runnable {
 	// static variables
@@ -24,6 +26,7 @@ public class Game extends Canvas implements Runnable {
 	private Thread thread;
 	private JFrame frame; // creating the window for the game
 	private Keyboard key; // control key
+	private Level level;
 	private boolean running = false;
 
 	private Screen screen; // screen for dealing with the pixels
@@ -47,6 +50,7 @@ public class Game extends Canvas implements Runnable {
 		frame = new JFrame();
 		setFocusable(true);
 		key = new Keyboard();
+		level = new RandomLevel(64, 64);
 		addKeyListener(key);
 	}
 
@@ -120,7 +124,7 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		screen.clear(); // clearing the previous pixels
-		screen.render(x, y); // from screen class, calling the graphic render for each pixel
+		level.render(x, y, screen);
 
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
