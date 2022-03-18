@@ -119,7 +119,10 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		screen.clear(); // clearing the previous pixels
-		level.render(player.x, player.y, screen); // player render the screen
+		int xScroll = player.x - screen.width / 2; // center of the screen between upper an lower bound
+		int yScroll = player.y - screen.height / 2; // center of the screen between left an right bound
+		level.render(xScroll, yScroll, screen); // render the playe to the screen
+		player.render(screen);
 
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
@@ -129,7 +132,6 @@ public class Game extends Canvas implements Runnable {
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Verdana", 0, 50));
-		
 
 		g.dispose(); // empty resources of the irrelevant graphics
 		bs.show();

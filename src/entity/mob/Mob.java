@@ -9,7 +9,7 @@ public abstract class Mob extends Entity {
 	protected int dir = 0;
 	protected boolean moving = false;
 
-	public void nove(int xa, int ya) {
+	public void move(int xa, int ya) {
 		if (xa > 0)
 			dir = 1; // go east
 		if (xa < 0)
