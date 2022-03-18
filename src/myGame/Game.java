@@ -3,6 +3,7 @@ package myGame;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -10,6 +11,7 @@ import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
 
+import entity.mob.Player;
 import myGame.graphics.Screen;
 import myGame.input.Keyboard;
 import myGame.level.Level;
@@ -27,17 +29,10 @@ public class Game extends Canvas implements Runnable {
 	private JFrame frame; // creating the window for the game
 	private Keyboard key; // control key
 	private Level level;
+	private Player player; // create new player
 	private boolean running = false;
 
 	private Screen screen; // screen for dealing with the pixels
-
-	public JFrame getFrame() {
-		return frame;
-	}
-
-	public void setFrame(JFrame frame) {
-		this.frame = frame;
-	}
 
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); // each image will be sized by original width and height and later will be scaled
 	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData(); // get pixels from the image and register them into an array to modify(access the image itself)
@@ -51,7 +46,16 @@ public class Game extends Canvas implements Runnable {
 		setFocusable(true);
 		key = new Keyboard();
 		level = new RandomLevel(64, 64);
+		player = new Player(key);
 		addKeyListener(key);
+	}
+
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
 	}
 
 	public synchronized void start() {
@@ -101,18 +105,9 @@ public class Game extends Canvas implements Runnable {
 		stop();
 	}
 
-	int x = 0, y = 0;
-
 	public void update() {
 		key.update();
-		if (key.up)
-			y--;
-		if (key.down)
-			y++;
-		if (key.right)
-			x++;
-		if (key.left)
-			x--;
+		player.update();
 
 	}
 
@@ -124,7 +119,7 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		screen.clear(); // clearing the previous pixels
-		level.render(x, y, screen);
+		level.render(player.x, player.y, screen); // player render the screen
 
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
@@ -132,6 +127,10 @@ public class Game extends Canvas implements Runnable {
 
 		Graphics g = bs.getDrawGraphics();
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+		g.setColor(Color.WHITE);
+		g.setFont(new Font("Verdana", 0, 50));
+		
+
 		g.dispose(); // empty resources of the irrelevant graphics
 		bs.show();
 	}
