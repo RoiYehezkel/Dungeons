@@ -51,15 +51,17 @@ public class Screen {
 	public void renderPlayer(int xp, int yp, Sprite sprite) {
 		xp -= xOffset;
 		yp -= yOffset;
-		for (int y = 0; y < 16; y++) {
+		for (int y = 0; y < 32; y++) {
 			int ya = yp + y; // setting the offset of y
-			for (int x = 0; x < 16; x++) {
+			int ys = y;
+			for (int x = 0; x < 32; x++) {
 				int xa = xp + x; // setting the offset of x
-				if (xa < -16 || xa >= width || ya < 0 || ya >= height)
+				int xs = x;
+				if (xa < -32 || xa >= width || ya < 0 || ya >= height)
 					break; // out of bounds
 				if (xa < 0)
 					xa = 0;
-				int col = sprite.pixels[x + y * 16]; // get the color of the pixel
+				int col = sprite.pixels[xs + ys * 32]; // get the color of the pixel
 				if (col != 0xffff00ff) // delete the pink pixel from the picture
 					pixels[xa + ya * width] = col;
 			}

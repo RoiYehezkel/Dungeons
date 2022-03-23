@@ -16,7 +16,7 @@ public abstract class Mob extends Entity {
 			dir = 3; // go west
 		if (ya > 0)
 			dir = 2; // go south
-		if (ya > 0)
+		if (ya < 0)
 			dir = 0; // go north
 
 		if (!collision()) {
