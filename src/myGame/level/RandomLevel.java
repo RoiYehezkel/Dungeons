@@ -14,7 +14,7 @@ public class RandomLevel extends Level {
 	protected void generateLevel() {
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				tiles[x + y * width] = rand.nextInt(4); // choose random tile
+				tilesInt[x + y * width] = rand.nextInt(4); // choose random tile
 				
 			}
 		}

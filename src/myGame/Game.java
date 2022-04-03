@@ -16,6 +16,7 @@ import myGame.graphics.Screen;
 import myGame.input.Keyboard;
 import myGame.level.Level;
 import myGame.level.RandomLevel;
+import myGame.level.SpawnLevel;
 
 public class Game extends Canvas implements Runnable {
 	// static variables
@@ -39,14 +40,14 @@ public class Game extends Canvas implements Runnable {
 
 	public Game() {
 		Dimension size = new Dimension(width * scale, height * scale);
-		setPreferredSize(size);
+		setPreferredSize(size); // size of the window
 
 		screen = new Screen(width, height);
 		frame = new JFrame();
 		setFocusable(true);
 		key = new Keyboard();
-		level = new RandomLevel(64, 64);
-		player = new Player(key);
+		level = new SpawnLevel("/textures/levels/level.png"); // get platform of the map
+		player = new Player(8 * 16, 8 * 16, key); // create new player with coordinate on the map
 		addKeyListener(key);
 	}
 
