@@ -46,7 +46,7 @@ public class Game extends Canvas implements Runnable {
 		frame = new JFrame();
 		setFocusable(true);
 		key = new Keyboard();
-		level = new SpawnLevel("/textures/levels/level.png"); // get platform of the map
+		level = Level.spwan; // get platform of the map
 		player = new Player(8 * 16, 8 * 16, key); // create new player with coordinate on the map
 		addKeyListener(key);
 	}

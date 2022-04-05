@@ -8,6 +8,7 @@ public class Level {
 	protected int width, height;
 	protected int[] tilesInt;
 	protected int[] tiles; // symbol for every tiles
+	public static Level spwan = new SpawnLevel("/levels/spawn.png");
 
 	public Level(int width, int height) {
 		this.width = width;
@@ -52,19 +53,22 @@ public class Level {
 		}
 	}
 
-	// grass = 0xff00ff00
-	// flower = 0xffffff00
-	// rock = 0xff7f7f00
 	public Tile getTile(int x, int y) {
 		if (x < 0 || y < 0 || x >= width || y >= height)
-			return Tile.voidTile;
-		if (tiles[x + y * width] == 0xff00ff00)
-			return Tile.grass; // return sprite of grass
-		if (tiles[x + y * width] == 0xffffff00)
-			return Tile.flower; // return sprite of flower
-		if (tiles[x + y * width] == 0xff7f7f00)
-			return Tile.rock; // return sprite of rock
-		return Tile.voidTile;
+			return Tile.spawn_water;
+		if (tiles[x + y * width] == Tile.col_spawn_floor)
+			return Tile.spawn_floor; // return sprite of floor
+		if (tiles[x + y * width] == Tile.col_spawn_grass)
+			return Tile.spawn_grass; // return sprite of grass
+		if (tiles[x + y * width] == Tile.col_spawn_hedge)
+			return Tile.spawn_hedge; // return sprite of hedge
+		if (tiles[x + y * width] == Tile.col_spawn_wall1)
+			return Tile.spawn_wall1; // return sprite of wall1
+		if (tiles[x + y * width] == Tile.col_spawn_wall2)
+			return Tile.spawn_wall2; // return sprite of wall2
+		if (tiles[x + y * width] == Tile.col_spawn_water)
+			return Tile.spawn_water; // return sprite of water
+		return Tile.spawn_water;
 	}
 
 }
