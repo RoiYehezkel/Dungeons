@@ -17,6 +17,7 @@ import myGame.input.Keyboard;
 import myGame.level.Level;
 import myGame.level.RandomLevel;
 import myGame.level.SpawnLevel;
+import myGame.level.TileCoordinate;
 
 public class Game extends Canvas implements Runnable {
 	// static variables
@@ -47,7 +48,9 @@ public class Game extends Canvas implements Runnable {
 		setFocusable(true);
 		key = new Keyboard();
 		level = Level.spwan; // get platform of the map
-		player = new Player(8 * 16, 8 * 16, key); // create new player with coordinate on the map
+		TileCoordinate playerSpawn = new TileCoordinate(20, 62); // set coordinate for player
+		player = new Player(playerSpawn.x(), playerSpawn.y(), key); // create new player with coordinate on the map
+		player.init(level);
 		addKeyListener(key);
 	}
 
