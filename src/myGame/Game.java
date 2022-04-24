@@ -8,12 +8,15 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.util.Random;
 
 import javax.swing.JFrame;
 
 import entity.mob.Player;
 import myGame.graphics.Screen;
+import myGame.graphics.Sprite;
 import myGame.input.Keyboard;
+import myGame.input.Mouse;
 import myGame.level.Level;
 import myGame.level.RandomLevel;
 import myGame.level.SpawnLevel;
@@ -22,9 +25,9 @@ import myGame.level.TileCoordinate;
 public class Game extends Canvas implements Runnable {
 	// static variables
 	private static final long serialVersionUID = 1L; // remove a warning in the class name
-	public static int width = 300;
-	public static int height = width / 16 * 9; // giving aspect ration of 16:9
-	public static int scale = 3; // scaling the window size, while the render stay the same
+	private static int width = 300;
+	private static int height = width / 16 * 9; // giving aspect ration of 16:9
+	private static int scale = 3; // scaling the window size, while the render stay the same
 	public static String title = "Rain";
 	// object variables
 	private Thread thread;
@@ -52,6 +55,10 @@ public class Game extends Canvas implements Runnable {
 		player = new Player(playerSpawn.x(), playerSpawn.y(), key); // create new player with coordinate on the map
 		player.init(level);
 		addKeyListener(key);
+		Mouse mouse = new Mouse();
+		addMouseListener(mouse);
+		addMouseMotionListener(mouse);
+
 	}
 
 	public JFrame getFrame() {
@@ -60,6 +67,14 @@ public class Game extends Canvas implements Runnable {
 
 	public void setFrame(JFrame frame) {
 		this.frame = frame;
+	}
+
+	public static int getWindowWidth() {
+		return width * scale;
+	}
+
+	public static int getWindowHeight() {
+		return height * scale;
 	}
 
 	public synchronized void start() {
@@ -112,6 +127,7 @@ public class Game extends Canvas implements Runnable {
 	public void update() {
 		key.update();
 		player.update();
+		level.update();
 
 	}
 
@@ -128,6 +144,14 @@ public class Game extends Canvas implements Runnable {
 		level.render(xScroll, yScroll, screen); // render the player to the screen
 		player.render(screen);
 
+		Sprite sprite = new Sprite(2, 2, 0xffffff);
+		Random rand = new Random();
+		for (int i = 0; i < 100; i++) {
+			int x = rand.nextInt(20);
+			int y = rand.nextInt(20);
+			screen.renderSprite(width - 60 + x, 50 + y, sprite, true);
+		}
+
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
 		}
@@ -136,7 +160,7 @@ public class Game extends Canvas implements Runnable {
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Verdana", 0, 50));
-
+		//g.fillRect(Mouse.getX() - 32, Mouse.getY() - 32, 64, 64);
 		g.dispose(); // empty resources of the irrelevant graphics
 		bs.show();
 	}

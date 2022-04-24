@@ -1,6 +1,11 @@
 package entity.mob;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import entity.Entity;
+import entity.projectile.Projectile;
+import entity.projectile.WizardProjectile;
 import myGame.graphics.Sprite;
 
 public abstract class Mob extends Entity {
@@ -10,7 +15,7 @@ public abstract class Mob extends Entity {
 	protected boolean moving = false;
 
 	public void move(int xa, int ya) {
-
+		//System.out.println("size: " + level.getProjectiles().size());
 		if (xa != 0 && ya != 0) {
 			move(xa, 0); // to check collision
 			move(0, ya); // to check collision
@@ -24,7 +29,6 @@ public abstract class Mob extends Entity {
 			dir = 2; // go south
 		if (ya < 0)
 			dir = 0; // go north
-
 		if (!collision(xa, ya)) // check if there is a collision
 		{
 			x += xa; // x = -1, 0, 1
@@ -34,6 +38,13 @@ public abstract class Mob extends Entity {
 	}
 
 	public void updtae() {
+
+	}
+
+	protected void shoot(int x, int y, double dir) {
+		//dir = dir * (180 / Math.PI);
+		Projectile p = new WizardProjectile(x, y, dir);
+		level.addProjectile(p);
 
 	}
 

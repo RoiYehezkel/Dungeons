@@ -6,6 +6,7 @@ public class Sprite {
 	private int x, y;
 	public int[] pixels;
 	private SpriteSheet sheet;
+	private int width, height;
 
 	public static Sprite grass = new Sprite(16, 0, 5, SpriteSheet.tiles); // create sprite of grass
 	public static Sprite voidSprite = new Sprite(16, 0x1B87E0); // empty sprite(blue)
@@ -19,6 +20,9 @@ public class Sprite {
 	public static Sprite spawn_wall1 = new Sprite(16, 0, 1, SpriteSheet.spawn_level);
 	public static Sprite spawn_wall2 = new Sprite(16, 0, 2, SpriteSheet.spawn_level);
 	public static Sprite spawn_floor = new Sprite(16, 1, 1, SpriteSheet.spawn_level);
+
+	// Projectile Sprites
+	public static Sprite projectile_wizard = new Sprite(16, 0, 0, SpriteSheet.projectile_wizard);
 
 	// Player Sprites
 	public static Sprite player_forward = new Sprite(32, 0, 5, SpriteSheet.tiles);
@@ -44,6 +48,8 @@ public class Sprite {
 
 	public Sprite(int size, int x, int y, SpriteSheet sheet) {
 		SIZE = size;
+		this.width = size;
+		this.height = size;
 		pixels = new int[SIZE * SIZE];
 		this.x = x * size;
 		this.y = y * size;
@@ -51,24 +57,42 @@ public class Sprite {
 		load(); // set a single sprite to the screen
 	}
 
-	public Sprite(int size, int colour) {
+	public Sprite(int width, int height, int colour) {
+		SIZE = -1;
+		this.width = width;
+		this.height = height;
+		pixels = new int[width * height];
+		setColour(colour);
+	}
+
+	public Sprite(int size, int colour) // constructor fo particle of projectile
+	{
 		SIZE = size;
+		this.width = size;
+		this.height = size;
 		pixels = new int[SIZE * SIZE];
 		setColour(colour);
 	}
 
 	private void setColour(int colour) {
-		for (int i = 0; i < SIZE * SIZE; i++) {
+		for (int i = 0; i < width * height; i++) {
 			pixels[i] = colour;
 
 		}
+	}
 
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
 	}
 
 	private void load() {
 		for (int y = 0; y < SIZE; y++) {
 			for (int x = 0; x < SIZE; x++) {
-				pixels[x + y * SIZE] = sheet.pixels[(x + this.x) + (y + this.y) * sheet.SIZE]; // set every single spritein SpriteSheet
+				pixels[x + y * SIZE] = sheet.pixels[(x + this.x) + (y + this.y) * sheet.SIZE]; // set every single sprite in SpriteSheet
 			}
 		}
 	}

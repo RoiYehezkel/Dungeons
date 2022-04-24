@@ -3,6 +3,7 @@ package myGame.graphics;
 import java.util.Random;
 
 import entity.mob.Player;
+import entity.projectile.Projectile;
 import myGame.level.tile.Tile;
 
 public class Screen {
@@ -29,6 +30,40 @@ public class Screen {
 	public void clear() {
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = 0;
+		}
+	}
+
+	public void renderSprite(int xp, int yp, Sprite sprite, boolean fixed) {
+		if (fixed) {
+			xp -= xOffset;
+			yp -= yOffset;
+		}
+		for (int y = 0; y < sprite.getHeight(); y++) {
+			int ya = y + yp; // move to the right position instead of the upper right corner
+			for (int x = 0; x < sprite.getWidth(); x++) {
+				int xa = x + xp; // move to the right position instead of the upper right corner
+				if (xa < 0 || xa >= width || ya < 0 || ya >= height)
+					continue;
+				pixels[x + y * width] = sprite.pixels[x + y * sprite.getWidth()];
+			}
+		}
+	}
+
+	public void renderProjectile(int xp, int yp, Projectile p) {
+		xp -= xOffset;
+		yp -= yOffset;
+		for (int y = 0; y < p.getSpriteSize(); y++) {
+			int ya = y + yp; // move to the right position instead of the upper right corner
+			for (int x = 0; x < p.getSpriteSize(); x++) {
+				int xa = x + xp; // move to the right position instead of the upper right corner
+				if (xa < -p.getSpriteSize() || xa >= width || ya < 0 || ya >= height)
+					break;
+				if (xa < 0)
+					xa = 0;
+				int col = p.getSprite().pixels[x + y * p.getSpriteSize()];
+				if (col != 0xffff00ff) // delete the pink pixel from the picture
+					pixels[xa + ya * width] = col;
+			}
 		}
 	}
 
