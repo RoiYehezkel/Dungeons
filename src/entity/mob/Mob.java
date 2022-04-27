@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entity.Entity;
+import entity.particle.Particle;
 import entity.projectile.Projectile;
 import entity.projectile.WizardProjectile;
 import myGame.graphics.Sprite;
@@ -34,7 +35,6 @@ public abstract class Mob extends Entity {
 			x += xa; // x = -1, 0, 1
 			y += ya; // y = -1, 0, 1
 		}
-
 	}
 
 	public void updtae() {
@@ -44,7 +44,7 @@ public abstract class Mob extends Entity {
 	protected void shoot(int x, int y, double dir) {
 		//dir = dir * (180 / Math.PI);
 		Projectile p = new WizardProjectile(x, y, dir);
-		level.addProjectile(p);
+		level.add(p);
 
 	}
 

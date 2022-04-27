@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entity.Entity;
+import entity.Spawner;
+import entity.particle.Particle;
 import entity.projectile.Projectile;
 import myGame.graphics.Screen;
 import myGame.level.tile.Tile;
@@ -17,6 +19,7 @@ public class Level {
 
 	private List<Entity> entities = new ArrayList<Entity>();
 	private List<Projectile> projectiles = new ArrayList<Projectile>();
+	private List<Particle> particles = new ArrayList<Particle>();
 
 	public Level(int width, int height) {
 		this.width = width;
@@ -28,6 +31,8 @@ public class Level {
 	public Level(String path) {
 		loadLevel(path); // generate level from file
 		generateLevel(); // generate random level
+
+		add(new Spawner(16 * 16, 62 * 16, Spawner.Type.PARTICLE, 50, this)); // create the particles
 	}
 
 	protected void generateLevel() {
@@ -45,6 +50,9 @@ public class Level {
 		}
 		for (int i = 0; i < projectiles.size(); i++) {
 			projectiles.get(i).update();
+		}
+		for (int i = 0; i < particles.size(); i++) {
+			particles.get(i).update();
 		}
 
 	}
@@ -89,15 +97,20 @@ public class Level {
 		for (int i = 0; i < projectiles.size(); i++) {
 			projectiles.get(i).render(screen);
 		}
+		for (int i = 0; i < particles.size(); i++) {
+			particles.get(i).render(screen);
+		}
 	}
 
 	public void add(Entity e) {
-		entities.add(e);
-	}
-
-	public void addProjectile(Projectile p) {
-		p.init(this);
-		projectiles.add(p);
+		e.init(this);
+		if (e instanceof Particle) {
+			particles.add((Particle) e);
+		} else if (e instanceof Projectile) {
+			projectiles.add((Projectile) e);
+		} else {
+			entities.add(e);
+		}
 	}
 
 	public Tile getTile(int x, int y) {
