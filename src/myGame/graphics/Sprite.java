@@ -24,8 +24,9 @@ public class Sprite {
 	// Projectile Sprites
 	public static Sprite projectile_wizard = new Sprite(16, 0, 0, SpriteSheet.projectile_wizard);
 
-	// Particles
+	// Particles Sprites 
 	public static Sprite particle_normal = new Sprite(3, 0xAAAAAA);
+	
 	// Player Sprites
 	public static Sprite player_forward = new Sprite(32, 0, 5, SpriteSheet.tiles);
 	public static Sprite player_back = new Sprite(32, 2, 5, SpriteSheet.tiles);

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entity.Entity;
-import entity.Spawner;
 import entity.particle.Particle;
 import entity.projectile.Projectile;
+import entity.spawner.Spawner;
 import myGame.graphics.Screen;
 import myGame.level.tile.Tile;
 
@@ -31,8 +31,6 @@ public class Level {
 	public Level(String path) {
 		loadLevel(path); // generate level from file
 		generateLevel(); // generate random level
-
-		add(new Spawner(16 * 16, 62 * 16, Spawner.Type.PARTICLE, 50, this)); // create the particles
 	}
 
 	protected void generateLevel() {
@@ -54,7 +52,23 @@ public class Level {
 		for (int i = 0; i < particles.size(); i++) {
 			particles.get(i).update();
 		}
+		remove();
+	}
 
+	private void remove() // remove object from the list
+	{
+		for (int i = 0; i < entities.size(); i++) {
+			if (entities.get(i).isRemoved())
+				entities.remove(i);
+		}
+		for (int i = 0; i < projectiles.size(); i++) {
+			if (projectiles.get(i).isRemoved())
+				projectiles.remove(i);
+		}
+		for (int i = 0; i < particles.size(); i++) {
+			if (particles.get(i).isRemoved())
+				particles.remove(i);
+		}
 	}
 
 	public List<Projectile> getProjectiles() {
@@ -65,12 +79,12 @@ public class Level {
 
 	}
 
-	public boolean tileCollision(double x, double y, double xa, double ya, int size) {
+	public boolean tileCollision(int x, int y, int size, int xOffset, int yOffset) {
 		boolean solid = false;
 		for (int c = 0; c < 4; c++) // to check all 4 corners of player if there is collision
 		{
-			int xt = (((int) x + (int) xa) + c % 2 * size * 2 - 12) / 16;
-			int yt = (((int) y + (int) ya) + c / 2 * size + 2) / 16;
+			int xt = (x - c % 2 * size + xOffset) >> 4;
+			int yt = (y - c / 2 * size + yOffset) >> 4;
 			if (getTile(xt, yt).solid())
 				solid = true; // there is a collision
 		}

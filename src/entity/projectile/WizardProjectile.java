@@ -1,6 +1,8 @@
 package entity.projectile;
 
 import entity.particle.Particle;
+import entity.spawner.ParticleSpawner;
+import entity.spawner.Spawner;
 import myGame.graphics.Screen;
 import myGame.graphics.Sprite;
 
@@ -19,10 +21,9 @@ public class WizardProjectile extends Projectile {
 	}
 
 	public void update() {
-		if (level.tileCollision(x, y, nx, ny, 7)) // remove projectile when he touch wall
+		if (level.tileCollision((int) (x + nx), (int) (y + ny), 7, 4, 4)) // remove projectile when he touch wall
 		{
-			//Particle p = new Particle((int) x, (int) y, 50, 500);
-			//level.add(p);
+			level.add(new ParticleSpawner((int) x, (int) y, 44, 50, level)); // create the particles
 			remove();
 		}
 		move();
