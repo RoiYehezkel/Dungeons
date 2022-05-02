@@ -15,8 +15,9 @@ public class SpawnWaterTile extends Tile {
 
 	}
 
-	public boolean solid() {
-		return false;
+	public boolean solid() // for player
+	{
+		return true;
 	}
 
 }

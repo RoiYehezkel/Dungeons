@@ -1,8 +1,6 @@
 package entity.projectile;
 
-import entity.particle.Particle;
 import entity.spawner.ParticleSpawner;
-import entity.spawner.Spawner;
 import myGame.graphics.Screen;
 import myGame.graphics.Sprite;
 

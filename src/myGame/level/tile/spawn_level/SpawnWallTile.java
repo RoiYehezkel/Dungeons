@@ -15,7 +15,13 @@ public class SpawnWallTile extends Tile {
 
 	}
 
-	public boolean solid() {
+	public boolean solid() // for player
+	{
+		return true;
+	}
+
+	public boolean solidP() // for particle
+	{
 		return true;
 	}
 

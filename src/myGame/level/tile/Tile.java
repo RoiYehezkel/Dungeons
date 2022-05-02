@@ -29,7 +29,7 @@ public class Tile {
 	// hexa code for every spawn tile
 	public final static int col_spawn_grass = 0xff00ff00;
 	public final static int col_spawn_hedge = 0; // unused
-	public final static int col_spawn_water = 0; // unused
+	public final static int col_spawn_water = 0xff2BF7FF;
 	public final static int col_spawn_wall1 = 0xff808080;
 	public final static int col_spawn_wall2 = 0xff303030;
 	public final static int col_spawn_floor = 0xff7F0000;
@@ -43,6 +43,10 @@ public class Tile {
 	}
 
 	public boolean solid() {
+		return false;
+	}
+
+	public boolean solidP() {
 		return false;
 	}
 

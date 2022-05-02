@@ -85,7 +85,7 @@ public class Level {
 		{
 			int xt = (x - c % 2 * size + xOffset) >> 4;
 			int yt = (y - c / 2 * size + yOffset) >> 4;
-			if (getTile(xt, yt).solid())
+			if (getTile(xt, yt).solidP())
 				solid = true; // there is a collision
 		}
 		return solid;
