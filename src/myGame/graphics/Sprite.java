@@ -5,7 +5,7 @@ public class Sprite {
 	public final int SIZE;
 	private int x, y;
 	public int[] pixels;
-	private SpriteSheet sheet;
+	protected SpriteSheet sheet;
 	private int width, height;
 
 	public static Sprite grass = new Sprite(16, 0, 5, SpriteSheet.tiles); // create sprite of grass
@@ -49,6 +49,13 @@ public class Sprite {
 	public static Sprite player_right_1 = new Sprite(32, 0, 6, SpriteSheet.tiles);
 	public static Sprite player_right_2 = new Sprite(32, 2, 6, SpriteSheet.tiles);
 
+	protected Sprite(SpriteSheet sheet, int width, int height) {
+		SIZE = width == height ? width : -1;
+		this.width = width;
+		this.height = height;
+		this.sheet = sheet;
+	}
+
 	public Sprite(int size, int x, int y, SpriteSheet sheet) {
 		SIZE = size;
 		this.width = size;
@@ -75,6 +82,13 @@ public class Sprite {
 		this.height = size;
 		pixels = new int[SIZE * SIZE];
 		setColour(colour);
+	}
+
+	public Sprite(int[] pixels, int width, int height) {
+		SIZE = width == height ? width : -1;
+		this.width = width;
+		this.height = height;
+		this.pixels = pixels;
 	}
 
 	private void setColour(int colour) {

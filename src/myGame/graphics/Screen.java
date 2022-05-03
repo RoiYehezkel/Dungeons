@@ -2,7 +2,6 @@ package myGame.graphics;
 
 import java.util.Random;
 
-import entity.mob.Player;
 import entity.projectile.Projectile;
 import myGame.level.tile.Tile;
 
@@ -30,6 +29,22 @@ public class Screen {
 	public void clear() {
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = 0;
+		}
+	}
+
+	public void renderSheet(int xp, int yp, SpriteSheet sheet, boolean fixed) {
+		if (fixed) {
+			xp -= xOffset;
+			yp -= yOffset;
+		}
+		for (int y = 0; y < sheet.HEIGHT; y++) {
+			int ya = y + yp; // move to the right position instead of the upper right corner
+			for (int x = 0; x < sheet.WIDTH; x++) {
+				int xa = x + xp; // move to the right position instead of the upper right corner
+				if (xa < 0 || xa >= width || ya < 0 || ya >= height)
+					continue;
+				pixels[xa + ya * width] = sheet.pixels[x + y * sheet.WIDTH];
+			}
 		}
 	}
 

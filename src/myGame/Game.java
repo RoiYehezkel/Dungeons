@@ -8,13 +8,12 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-import java.util.Random;
 
 import javax.swing.JFrame;
 
 import entity.mob.Player;
 import myGame.graphics.Screen;
-import myGame.graphics.Sprite;
+import myGame.graphics.SpriteSheet;
 import myGame.input.Keyboard;
 import myGame.input.Mouse;
 import myGame.level.Level;
@@ -143,7 +142,6 @@ public class Game extends Canvas implements Runnable {
 		int yScroll = player.y - screen.height / 2; // center of the screen between left an right bound
 		level.render(xScroll, yScroll, screen); // render the player to the screen
 		player.render(screen);
-
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
 		}

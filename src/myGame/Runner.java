@@ -6,7 +6,7 @@ public class Runner {
 
 	public static void main(String[] args) {
 		Game game = new Game();
-		game.getFrame().setResizable(true);
+		game.getFrame().setResizable(false);
 		game.getFrame().setTitle(Game.title); // set the title of the window
 		game.getFrame().add(game); // adding the game to the frame
 		game.getFrame().pack(); // setting the game size by the definition of dimension size
