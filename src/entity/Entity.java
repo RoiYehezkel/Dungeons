@@ -3,13 +3,26 @@ package entity;
 import java.util.Random;
 
 import myGame.graphics.Screen;
+import myGame.graphics.Sprite;
 import myGame.level.Level;
 
 public abstract class Entity {
-	public int x, y;
+	protected int x, y;
+	protected Sprite sprite;
 	private boolean removed = false;
 	protected Level level;
 	protected final Random rand = new Random();
+
+	public Entity() {
+
+	}
+
+	public Entity(int x, int y, Sprite sprite) {
+		this.x = x;
+		this.y = y;
+		this.sprite = sprite;
+
+	}
 
 	public void update() {
 
@@ -22,6 +35,18 @@ public abstract class Entity {
 	public void remove() {
 		// remove from level
 		removed = true;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public Sprite getSprite() {
+		return sprite;
 	}
 
 	public boolean isRemoved() {

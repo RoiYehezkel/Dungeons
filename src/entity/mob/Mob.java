@@ -3,39 +3,54 @@ package entity.mob;
 import entity.Entity;
 import entity.projectile.Projectile;
 import entity.projectile.WizardProjectile;
-import myGame.graphics.Sprite;
+import myGame.graphics.Screen;
 
 public abstract class Mob extends Entity {
 
-	protected Sprite sprite;
-	protected int dir = 0;
 	protected boolean moving = false;
+	protected boolean walking = false;
 
-	public void move(int xa, int ya) {
-		//System.out.println("size: " + level.getProjectiles().size());
+	protected enum Direction {
+		UP, DOWN, RIGHT, LEFT
+	}
+
+	protected Direction dir;
+
+	public void move(double xa, double ya) {
 		if (xa != 0 && ya != 0) {
 			move(xa, 0); // to check collision
 			move(0, ya); // to check collision
 			return;
 		}
 		if (xa > 0)
-			dir = 1; // go east
+			dir = Direction.RIGHT; // go east
 		if (xa < 0)
-			dir = 3; // go west
+			dir = Direction.LEFT; // go west
 		if (ya > 0)
-			dir = 2; // go south
+			dir = Direction.DOWN; // go south
 		if (ya < 0)
-			dir = 0; // go north
-		if (!collision(xa, ya)) // check if there is a collision
-		{
-			x += xa; // x = -1, 0, 1
-			y += ya; // y = -1, 0, 1
+			dir = Direction.UP; // go north
+		for (int y = 0; y < Math.abs(ya); y++) {
+			if (!collision(xa, abs(ya))) // check if there is a collision
+				this.y += abs(ya); // y = -1, 0, 1
+
 		}
+		for (int x = 0; x < Math.abs(xa); x++) {
+			if (!collision(abs(xa), ya)) // check if there is a collision
+				this.x += abs(xa); // x = -1, 0, 1
+		}
+
 	}
 
-	public void updtae() {
-
+	private int abs(double value) {
+		if (value < 0)
+			return -1;
+		return 1;
 	}
+
+	public abstract void update();
+
+	public abstract void render(Screen screen);
 
 	protected void shoot(int x, int y, double dir) {
 		//dir = dir * (180 / Math.PI);
@@ -44,20 +59,22 @@ public abstract class Mob extends Entity {
 
 	}
 
-	private boolean collision(int xa, int ya) {
+	private boolean collision(double xa, double ya) {
 		boolean solid = false;
 		for (int c = 0; c < 4; c++) // to check all 4 corners of player if there is collision
 		{
-			int xt = ((x + xa) + c % 2 * 14 - 8) / 16;
-			int yt = ((y + ya) + c / 2 * 12 + 3) / 16;
-			if (level.getTile(xt, yt).solid())
+			double xt = ((x + xa) - c % 2 * 16) / 16;
+			double yt = ((y + ya) - c / 2 * 16) / 16;
+			int ix = (int) Math.ceil(xt);
+			int iy = (int) Math.ceil(yt);
+			if (c % 2 == 0) // check for the left bound
+				ix = (int) Math.floor(xt);
+			if (c / 2 == 0) // check for the lower bound
+				iy = (int) Math.floor(yt);
+			if (level.getTile(ix, iy).solid())
 				solid = true; // there is a collision
 		}
 		return solid;
-	}
-
-	public void render() {
-
 	}
 
 }

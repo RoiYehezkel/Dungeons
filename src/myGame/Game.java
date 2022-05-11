@@ -13,12 +13,9 @@ import javax.swing.JFrame;
 
 import entity.mob.Player;
 import myGame.graphics.Screen;
-import myGame.graphics.SpriteSheet;
 import myGame.input.Keyboard;
 import myGame.input.Mouse;
 import myGame.level.Level;
-import myGame.level.RandomLevel;
-import myGame.level.SpawnLevel;
 import myGame.level.TileCoordinate;
 
 public class Game extends Canvas implements Runnable {
@@ -50,9 +47,9 @@ public class Game extends Canvas implements Runnable {
 		setFocusable(true);
 		key = new Keyboard();
 		level = Level.spwan; // get platform of the map
-		TileCoordinate playerSpawn = new TileCoordinate(20, 62); // set coordinate for player
+		TileCoordinate playerSpawn = new TileCoordinate(20, 42); // set coordinate for player
 		player = new Player(playerSpawn.x(), playerSpawn.y(), key); // create new player with coordinate on the map
-		player.init(level);
+		level.add(player); // add player character to the game
 		addKeyListener(key);
 		Mouse mouse = new Mouse();
 		addMouseListener(mouse);
@@ -125,7 +122,6 @@ public class Game extends Canvas implements Runnable {
 
 	public void update() {
 		key.update();
-		player.update();
 		level.update();
 
 	}
@@ -138,10 +134,9 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		screen.clear(); // clearing the previous pixels
-		int xScroll = player.x - screen.width / 2; // center of the screen between upper an lower bound
-		int yScroll = player.y - screen.height / 2; // center of the screen between left an right bound
+		int xScroll = player.getX() - screen.width / 2; // center of the screen between upper an lower bound
+		int yScroll = player.getY() - screen.height / 2; // center of the screen between left an right bound
 		level.render(xScroll, yScroll, screen); // render the player to the screen
-		player.render(screen);
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
 		}

@@ -8,10 +8,7 @@ public class Sprite {
 	protected SpriteSheet sheet;
 	private int width, height;
 
-	public static Sprite grass = new Sprite(16, 0, 5, SpriteSheet.tiles); // create sprite of grass
 	public static Sprite voidSprite = new Sprite(16, 0x1B87E0); // empty sprite(blue)
-	public static Sprite flower = new Sprite(16, 1, 0, SpriteSheet.tiles);
-	public static Sprite rock = new Sprite(16, 2, 0, SpriteSheet.tiles);
 
 	// SpawnLevel Sprites
 	public static Sprite spawn_grass = new Sprite(16, 0, 0, SpriteSheet.spawn_level);
@@ -48,6 +45,8 @@ public class Sprite {
 	// walking right
 	public static Sprite player_right_1 = new Sprite(32, 0, 6, SpriteSheet.tiles);
 	public static Sprite player_right_2 = new Sprite(32, 2, 6, SpriteSheet.tiles);
+
+	public static Sprite dummy = new Sprite(32, 0, 0, SpriteSheet.dummy_down);
 
 	protected Sprite(SpriteSheet sheet, int width, int height) {
 		SIZE = width == height ? width : -1;
@@ -107,9 +106,9 @@ public class Sprite {
 	}
 
 	private void load() {
-		for (int y = 0; y < SIZE; y++) {
-			for (int x = 0; x < SIZE; x++) {
-				pixels[x + y * SIZE] = sheet.pixels[(x + this.x) + (y + this.y) * sheet.SIZE]; // set every single sprite in SpriteSheet
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				pixels[x + y * width] = sheet.pixels[(x + this.x) + (y + this.y) * sheet.WIDTH]; // set every single sprite in SpriteSheet
 			}
 		}
 	}

@@ -16,12 +16,26 @@ public class SpriteSheet {
 	public static SpriteSheet spawn_level = new SpriteSheet("/textures/sheets/spawn_level.png", 48);
 	public static SpriteSheet projectile_wizard = new SpriteSheet("/textures/sheets/projectiles/wizard.png", 48);
 
+	// player sprties
 	public static SpriteSheet player = new SpriteSheet("/textures/sheets/player1.png", 96, 128);
 	public static SpriteSheet player_down = new SpriteSheet(player, 0, 0, 3, 1, 32);
 	public static SpriteSheet player_up = new SpriteSheet(player, 0, 3, 3, 1, 32);
 	public static SpriteSheet player_left = new SpriteSheet(player, 0, 1, 3, 1, 32);
 	public static SpriteSheet player_right = new SpriteSheet(player, 0, 2, 3, 1, 32);
-
+	
+	// NPC sprites
+	public static SpriteSheet dummy = new SpriteSheet("/textures/sheets/player2.png", 96, 128);
+	public static SpriteSheet dummy_down = new SpriteSheet(dummy, 0, 0, 3, 1, 32);
+	public static SpriteSheet dummy_up = new SpriteSheet(dummy, 0, 3, 3, 1, 32);
+	public static SpriteSheet dummy_left = new SpriteSheet(dummy, 0, 1, 3, 1, 32);
+	public static SpriteSheet dummy_right = new SpriteSheet(dummy, 0, 2, 3, 1, 32);
+	
+	public static SpriteSheet chaser = new SpriteSheet("/textures/sheets/player3.png", 96, 128);
+	public static SpriteSheet chaser_down = new SpriteSheet(chaser, 0, 0, 3, 1, 32);
+	public static SpriteSheet chaser_up = new SpriteSheet(chaser, 0, 3, 3, 1, 32);
+	public static SpriteSheet chaser_left = new SpriteSheet(chaser, 0, 1, 3, 1, 32);
+	public static SpriteSheet chaser_right = new SpriteSheet(chaser, 0, 2, 3, 1, 32);
+	
 	private Sprite[] sprites;
 
 	public SpriteSheet(SpriteSheet sheet, int x, int y, int width, int height, int spriteSize) {

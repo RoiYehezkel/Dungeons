@@ -15,7 +15,7 @@ public class Player extends Mob {
 	private Keyboard input;
 	private Sprite sprite;
 	//private int anim = 0;
-	private boolean walking = false;
+	//private boolean walking = false;
 	private AnimatedSprite down = new AnimatedSprite(SpriteSheet.player_down, 32, 32, 3);
 	private AnimatedSprite up = new AnimatedSprite(SpriteSheet.player_up, 32, 32, 3);
 	private AnimatedSprite left = new AnimatedSprite(SpriteSheet.player_left, 32, 32, 3);
@@ -27,17 +27,18 @@ public class Player extends Mob {
 
 	public Player(Keyboard input) {
 		this.input = input;
-		sprite = Sprite.player_forward;
+		//sprite = Sprite.player_forward;
 	}
 
 	public Player(int x, int y, Keyboard input) {
 		this.x = x;
 		this.y = y;
 		this.input = input;
-		sprite = Sprite.player_forward;
+		//sprite = Sprite.player_forward;
 		fireRate = WizardProjectile.FIRE_RATE;
 	}
 
+	@Override
 	public void update() {
 		if (walking)
 			animSprite.update(); // player walk
@@ -46,23 +47,19 @@ public class Player extends Mob {
 		if (fireRate > 0) // count for shooting
 			fireRate--;
 		int xa = 0, ya = 0;
-		/*if (anim < 7500)
-			anim++;
-		else
-			anim = 0;*/
 		if (input.up) {
 			animSprite = up;
-			ya--;
+			ya -= 2;
 		} else if (input.down) {
 			animSprite = down;
-			ya++;
+			ya += 2;
 		}
 		if (input.left) {
 			animSprite = left;
-			xa--;
+			xa -= 2;
 		} else if (input.right) {
 			animSprite = right;
-			xa++;
+			xa += 2;
 		}
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);
@@ -94,46 +91,9 @@ public class Player extends Mob {
 	}
 
 	public void render(Screen screen) {
-		// create player animation
-		/*if (dir == 0) {
-			sprite = Sprite.player_forward;
-			if (walking) {
-				if (anim % 20 > 10) {
-					sprite = Sprite.player_forward_1;
-				} else
-					sprite = Sprite.player_forward_2;
-			}
-		}
-		if (dir == 1) {
-			sprite = Sprite.player_right;
-			if (walking) {
-				if (anim % 20 > 10) {
-					sprite = Sprite.player_right_1;
-				} else
-					sprite = Sprite.player_right_2;
-			}
-		}
-		if (dir == 2) {
-			sprite = Sprite.player_back;
-			if (walking) {
-				if (anim % 20 > 10) {
-					sprite = Sprite.player_back_1;
-				} else
-					sprite = Sprite.player_back_2;
-			}
-		}
-		if (dir == 3) {
-			sprite = Sprite.player_left;
-			if (walking) {
-				if (anim % 20 > 10) {
-					sprite = Sprite.player_left_1;
-				} else
-					sprite = Sprite.player_left_2;
-			}
-		}*/
 		sprite = animSprite.getSprite();
 		// put player on the screen
-		screen.renderPlayer(x - 16, y - 16, sprite);
+		screen.renderMob(x - 16, y - 16, sprite);
 	}
 
 }

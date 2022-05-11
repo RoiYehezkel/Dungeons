@@ -2,10 +2,9 @@ package myGame.level;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
-
-import myGame.level.tile.Tile;
+import entity.mob.Chaser;
+import entity.mob.Dummy;
 
 public class SpawnLevel extends Level {
 
@@ -23,6 +22,11 @@ public class SpawnLevel extends Level {
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Exception! Could not load level file");
+		}
+		// create enemy
+		add(new Chaser(20, 55));
+		for (int i = 0; i < 5; i++) {
+			add(new Dummy(20, 55));
 		}
 	}
 

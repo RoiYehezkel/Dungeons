@@ -13,9 +13,6 @@ public class Tile {
 	public int x, y;
 	public Sprite sprite;
 
-	public static Tile grass = new GrassTile(Sprite.grass); // tile of grass
-	public static Tile flower = new FlowerTile(Sprite.flower); // tile of flower
-	public static Tile rock = new RockTile(Sprite.rock); // tile of rock
 	public static Tile voidTile = new voidTile(Sprite.voidSprite); // black tile
 
 	// spawn tile
