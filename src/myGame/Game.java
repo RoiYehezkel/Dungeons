@@ -134,9 +134,9 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		screen.clear(); // clearing the previous pixels
-		int xScroll = player.getX() - screen.width / 2; // center of the screen between upper an lower bound
-		int yScroll = player.getY() - screen.height / 2; // center of the screen between left an right bound
-		level.render(xScroll, yScroll, screen); // render the player to the screen
+		double xScroll = player.getX() - screen.width / 2; // center of the screen between upper an lower bound
+		double yScroll = player.getY() - screen.height / 2; // center of the screen between left an right bound
+		level.render((int) xScroll, (int) yScroll, screen); // render the player to the screen
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
 		}

@@ -7,7 +7,7 @@ import myGame.graphics.Sprite;
 public class WizardProjectile extends Projectile {
 	public static final int FIRE_RATE = 10; // how much time between shoot
 
-	public WizardProjectile(int x, int y, double dir) {
+	public WizardProjectile(double x, double y, double dir) {
 		super(x, y, dir);
 		range = 200;
 		speed = 4;

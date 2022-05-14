@@ -46,20 +46,21 @@ public class Player extends Mob {
 			animSprite.setFrame(0); // player stop and reset to default
 		if (fireRate > 0) // count for shooting
 			fireRate--;
-		int xa = 0, ya = 0;
+		double xa = 0, ya = 0;
+		double speed = 1.4;
 		if (input.up) {
 			animSprite = up;
-			ya -= 2;
+			ya -= speed;
 		} else if (input.down) {
 			animSprite = down;
-			ya += 2;
+			ya += speed;
 		}
 		if (input.left) {
 			animSprite = left;
-			xa -= 2;
+			xa -= speed;
 		} else if (input.right) {
 			animSprite = right;
-			xa += 2;
+			xa += speed;
 		}
 		if (xa != 0 || ya != 0) {
 			move(xa, ya);
@@ -93,7 +94,7 @@ public class Player extends Mob {
 	public void render(Screen screen) {
 		sprite = animSprite.getSprite();
 		// put player on the screen
-		screen.renderMob(x - 16, y - 16, sprite);
+		screen.renderMob((int) (x - 16), (int) (y - 16), sprite);
 	}
 
 }

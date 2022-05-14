@@ -47,6 +47,7 @@ public class Sprite {
 	public static Sprite player_right_2 = new Sprite(32, 2, 6, SpriteSheet.tiles);
 
 	public static Sprite dummy = new Sprite(32, 0, 0, SpriteSheet.dummy_down);
+	public static Sprite chaser = new Sprite(32, 0, 0, SpriteSheet.chaser_down);
 
 	protected Sprite(SpriteSheet sheet, int width, int height) {
 		SIZE = width == height ? width : -1;
