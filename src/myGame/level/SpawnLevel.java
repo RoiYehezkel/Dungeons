@@ -25,7 +25,7 @@ public class SpawnLevel extends Level {
 			System.out.println("Exception! Could not load level file");
 		}
 		// create enemy
-		add(new Chaser(20, 55));
+		//add(new Chaser(20, 55));
 		add(new Star(17, 35));
 		for (int i = 0; i < 5; i++) {
 			add(new Dummy(20, 55));
