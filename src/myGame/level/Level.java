@@ -235,6 +235,8 @@ public class Level {
 		int ey = (int) e.getY();
 		for (int i = 0; i < entities.size(); i++) {
 			Entity entity = entities.get(i);
+			if (entity.equals(e)) // to ignore himself
+				continue;
 			int x = (int) entity.getX();
 			int y = (int) entity.getY();
 			// calculate distance between player and chaser

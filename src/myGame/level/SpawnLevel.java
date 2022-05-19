@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import entity.mob.Chaser;
 import entity.mob.Dummy;
+import entity.mob.Shooter;
 import entity.mob.Star;
 
 public class SpawnLevel extends Level {
@@ -26,10 +27,12 @@ public class SpawnLevel extends Level {
 		}
 		// create enemy
 		//add(new Chaser(20, 55));
-		add(new Star(17, 35));
-		for (int i = 0; i < 5; i++) {
-			add(new Dummy(20, 55));
-		}
+		//add(new Star(17, 35));
+		//		for (int i = 0; i < 5; i++) {
+					add(new Dummy(15, 53));
+		//		}
+		add(new Shooter(20, 55));
+		add(new Shooter(20, 48));
 	}
 
 	protected void generateLevel() {

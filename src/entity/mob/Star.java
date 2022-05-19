@@ -2,7 +2,6 @@ package entity.mob;
 
 import java.util.List;
 
-import entity.mob.Mob.Direction;
 import myGame.graphics.AnimatedSprite;
 import myGame.graphics.Screen;
 import myGame.graphics.Sprite;
@@ -20,7 +19,7 @@ public class Star extends Mob {
 
 	private double xa = 0;
 	private double ya = 0;
-	private double speed = 0.8;
+	//private double speed = 0.8;
 	private List<Node> path = null;
 	private int time = 0;
 
