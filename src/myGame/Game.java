@@ -1,9 +1,7 @@
 package myGame;
 
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -12,6 +10,7 @@ import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
 
 import entity.mob.Player;
+import myGame.graphics.Font;
 import myGame.graphics.Screen;
 import myGame.input.Keyboard;
 import myGame.input.Mouse;
@@ -34,7 +33,7 @@ public class Game extends Canvas implements Runnable {
 	private boolean running = false;
 
 	private Screen screen; // screen for dealing with the pixels
-
+	private Font font;
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); // each image will be sized by original width and height and later will be scaled
 	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData(); // get pixels from the image and register them into an array to modify(access the image itself)
 
@@ -47,6 +46,7 @@ public class Game extends Canvas implements Runnable {
 		setFocusable(true);
 		key = new Keyboard();
 		level = Level.spwan; // get platform of the map
+		font = new Font();
 		TileCoordinate playerSpawn = new TileCoordinate(20, 42); // set coordinate for player
 		player = new Player(playerSpawn.x(), playerSpawn.y(), key); // create new player with coordinate on the map
 		level.add(player); // add player character to the game
@@ -137,15 +137,13 @@ public class Game extends Canvas implements Runnable {
 		double xScroll = player.getX() - screen.width / 2; // center of the screen between upper an lower bound
 		double yScroll = player.getY() - screen.height / 2; // center of the screen between left an right bound
 		level.render((int) xScroll, (int) yScroll, screen); // render the player to the screen
+		font.render("\"Hello!\"", screen);
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
 		}
 
 		Graphics g = bs.getDrawGraphics();
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-		g.setColor(Color.WHITE);
-		g.setFont(new Font("Verdana", 0, 50));
-		// g.fillRect(Mouse.getX() - 32, Mouse.getY() - 32, 64, 64);
 		g.dispose(); // empty resources of the irrelevant graphics
 		bs.show();
 	}

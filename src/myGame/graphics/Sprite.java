@@ -88,7 +88,36 @@ public class Sprite {
 		SIZE = width == height ? width : -1;
 		this.width = width;
 		this.height = height;
-		this.pixels = pixels;
+		// copy the array instead of copy the reference
+		this.pixels = new int[pixels.length];
+		for (int i = 0; i < pixels.length; i++) {
+			this.pixels[i] = pixels[i];
+		}
+	}
+
+	public static Sprite[] split(SpriteSheet sheet) {
+		int amount = (sheet.getWidth() * sheet.getHeight()) / (sheet.WIDTH * sheet.HEIGHT); // amout of sprites
+		Sprite[] sprites = new Sprite[amount];
+		int current = 0;
+		int[] pixels = new int[sheet.HEIGHT * sheet.WIDTH];
+		for (int yp = 0; yp < sheet.getHeight() / sheet.HEIGHT; yp++) {
+			// 6 times
+			for (int xp = 0; xp < sheet.getWidth() / sheet.WIDTH; xp++) {
+				// 13 times
+				for (int y = 0; y < sheet.HEIGHT; y++) {
+					for (int x = 0; x < sheet.WIDTH; x++) {
+						// Separate every sprite to single sprite
+						int xo = x + xp * sheet.WIDTH;
+						int yo = y + yp * sheet.HEIGHT;
+						pixels[x + y * sheet.WIDTH] = sheet.getPixels()[xo + yo * sheet.getWidth()];
+					}
+				}
+				// add the single sprite to the array
+				sprites[current++] = new Sprite(pixels, sheet.WIDTH, sheet.HEIGHT);
+			}
+		}
+
+		return sprites;
 	}
 
 	private void setColour(int colour) {

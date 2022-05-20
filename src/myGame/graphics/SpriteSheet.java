@@ -10,6 +10,7 @@ public class SpriteSheet {
 	private String path; // path to image
 	public final int SIZE;
 	public final int WIDTH, HEIGHT;
+	private int width, height;
 	public int[] pixels;
 
 	public static SpriteSheet tiles = new SpriteSheet("/textures/sheets/spritesheet.png", 256);
@@ -22,20 +23,20 @@ public class SpriteSheet {
 	public static SpriteSheet player_up = new SpriteSheet(player, 0, 3, 3, 1, 32);
 	public static SpriteSheet player_left = new SpriteSheet(player, 0, 1, 3, 1, 32);
 	public static SpriteSheet player_right = new SpriteSheet(player, 0, 2, 3, 1, 32);
-	
+
 	// NPC sprites
 	public static SpriteSheet dummy = new SpriteSheet("/textures/sheets/player2.png", 96, 128);
 	public static SpriteSheet dummy_down = new SpriteSheet(dummy, 0, 0, 3, 1, 32);
 	public static SpriteSheet dummy_up = new SpriteSheet(dummy, 0, 3, 3, 1, 32);
 	public static SpriteSheet dummy_left = new SpriteSheet(dummy, 0, 1, 3, 1, 32);
 	public static SpriteSheet dummy_right = new SpriteSheet(dummy, 0, 2, 3, 1, 32);
-	
+
 	public static SpriteSheet chaser = new SpriteSheet("/textures/sheets/player3.png", 96, 128);
 	public static SpriteSheet chaser_down = new SpriteSheet(chaser, 0, 0, 3, 1, 32);
 	public static SpriteSheet chaser_up = new SpriteSheet(chaser, 0, 3, 3, 1, 32);
 	public static SpriteSheet chaser_left = new SpriteSheet(chaser, 0, 1, 3, 1, 32);
 	public static SpriteSheet chaser_right = new SpriteSheet(chaser, 0, 2, 3, 1, 32);
-	
+
 	private Sprite[] sprites;
 
 	public SpriteSheet(SpriteSheet sheet, int x, int y, int width, int height, int spriteSize) {
@@ -102,14 +103,29 @@ public class SpriteSheet {
 		return sprites;
 	}
 
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public int[] getPixels() {
+		return pixels;
+	}
+
 	private void load() {
 		try {
 			BufferedImage image = ImageIO.read(SpriteSheet.class.getResource(path)); // import spritesheet.png
-			int w = image.getWidth();
-			int h = image.getHeight();
-			image.getRGB(0, 0, w, h, pixels, 0, w); // set spritesheet to pixels
+			width = image.getWidth();
+			height = image.getHeight();
+			pixels = new int[width * height];
+			image.getRGB(0, 0, width, height, pixels, 0, width); // set spritesheet to pixels
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(" failed!");
 		}
 	}
 }
