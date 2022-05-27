@@ -12,6 +12,8 @@ import javax.swing.JFrame;
 import entity.mob.Player;
 import myGame.graphics.Font;
 import myGame.graphics.Screen;
+import myGame.graphics.ui.UIManager;
+import myGame.graphics.ui.UIPanel;
 import myGame.input.Keyboard;
 import myGame.input.Mouse;
 import myGame.level.Level;
@@ -32,16 +34,25 @@ public class Game extends Canvas implements Runnable {
 	private Player player; // create new player
 	private boolean running = false;
 
+	private static UIManager uiManager;
+
 	private Screen screen; // screen for dealing with the pixels
 	private Font font;
-	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); // each image will be sized by original width and height and later will be scaled
-	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData(); // get pixels from the image and register them into an array to modify(access the image itself)
+	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); // each image will be
+																								// sized by original
+																								// width and height and
+																								// later will be scaled
+	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData(); // get pixels from the image
+																							// and register them into an
+																							// array to modify(access
+																							// the image itself)
 
 	public Game() {
 		Dimension size = new Dimension(width * scale, height * scale);
 		setPreferredSize(size); // size of the window
 
 		screen = new Screen(width, height);
+		uiManager = new UIManager();
 		frame = new JFrame();
 		setFocusable(true);
 		key = new Keyboard();
@@ -73,6 +84,10 @@ public class Game extends Canvas implements Runnable {
 		return height * scale;
 	}
 
+	public static UIManager getUIManager() {
+		return uiManager;
+	}
+
 	public synchronized void start() {
 		running = true;
 		thread = new Thread(this, "Display");
@@ -102,13 +117,14 @@ public class Game extends Canvas implements Runnable {
 			while (delta >= 1) // will happened 60 times a second
 			{
 				update(); // method for updating the frame each time, aiming for 60 fps
-				updates++; //every time an update made for the pixels, Inc the updates VAR
+				updates++; // every time an update made for the pixels, Inc the updates VAR
 				delta--;
 			}
 			render(); // method for generating the frames in speed limited by user hardware
 			frames++;
 
-			if (System.currentTimeMillis() - timer > 1000) // as long as the difference between the start and now is greater then 1 second
+			if (System.currentTimeMillis() - timer > 1000) // as long as the difference between the start and now is
+															// greater then 1 second
 			{
 				timer += 1000;
 				System.out.println(updates + " ups, " + frames + " fps");
@@ -123,6 +139,7 @@ public class Game extends Canvas implements Runnable {
 	public void update() {
 		key.update();
 		level.update();
+		uiManager.update();
 
 	}
 
@@ -137,13 +154,14 @@ public class Game extends Canvas implements Runnable {
 		double xScroll = player.getX() - screen.width / 2; // center of the screen between upper an lower bound
 		double yScroll = player.getY() - screen.height / 2; // center of the screen between left an right bound
 		level.render((int) xScroll, (int) yScroll, screen); // render the player to the screen
-		font.render("\"Hello!\"", screen);
+		// font.render(50, 50, -3, "Hey\nRoi", screen);
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
 		}
 
 		Graphics g = bs.getDrawGraphics();
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+		uiManager.render(g); // render the ui to the screen
 		g.dispose(); // empty resources of the irrelevant graphics
 		bs.show();
 	}

@@ -22,7 +22,8 @@ public class Screen {
 		pixels = new int[width * height]; // 50,400
 
 		for (int i = 0; i < MAP_SIZE * MAP_SIZE; i++) {
-			tiles[i] = rand.nextInt(0xffffff); // choose any color from the 16.9 million available randomly(ffffff is white)
+			tiles[i] = rand.nextInt(0xffffff); // choose any color from the 16.9 million available randomly(ffffff is
+												// white)
 		}
 
 	}
@@ -60,7 +61,27 @@ public class Screen {
 				int xa = x + xp; // move to the right position instead of the upper right corner
 				if (xa < 0 || xa >= width || ya < 0 || ya >= height)
 					continue;
-				pixels[xa + ya * width] = sprite.pixels[x + y * sprite.getWidth()];
+				int col = sprite.pixels[x + y * sprite.getWidth()];
+				if (col != 0xffff00ff && col != 0xff7f007f) // delete the pink pixel from the picture
+					pixels[xa + ya * width] = col;
+			}
+		}
+	}
+
+	public void renderTextCharacter(int xp, int yp, Sprite sprite, int color, boolean fixed) {
+		if (fixed) {
+			xp -= xOffset;
+			yp -= yOffset;
+		}
+		for (int y = 0; y < sprite.getHeight(); y++) {
+			int ya = y + yp; // move to the right position instead of the upper right corner
+			for (int x = 0; x < sprite.getWidth(); x++) {
+				int xa = x + xp; // move to the right position instead of the upper right corner
+				if (xa < 0 || xa >= width || ya < 0 || ya >= height)
+					continue;
+				int col = sprite.pixels[x + y * sprite.getWidth()];
+				if (col != 0xffff00ff && col != 0xff7f007f) // delete the pink pixel from the picture
+					pixels[xa + ya * width] = color;
 			}
 		}
 	}

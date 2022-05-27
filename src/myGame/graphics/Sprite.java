@@ -20,8 +20,9 @@ public class Sprite {
 
 	// Projectile Sprites
 	public static Sprite projectile_wizard = new Sprite(16, 0, 0, SpriteSheet.projectile_wizard);
+	public static Sprite projectile_arrow = new Sprite(16, 1, 0, SpriteSheet.projectile_wizard);
 
-	// Particles Sprites 
+	// Particles Sprites
 	public static Sprite particle_normal = new Sprite(2, 0xAAAAAA);
 
 	// Player Sprites
@@ -95,6 +96,54 @@ public class Sprite {
 		}
 	}
 
+	public static Sprite rotate(Sprite sprite, double angle) {
+		return new Sprite(rotate(sprite.pixels, sprite.width, sprite.height, angle), sprite.width, sprite.height);
+	}
+
+	// rotate projectile by angle
+	private static int[] rotate(int[] pixels, int width, int height, double angle) {
+		int[] result = new int[width * height];
+		// calculate angles to rotate
+		double nx_x = rot_x(-angle, 1.0, 0.0);
+		double nx_y = rot_y(-angle, 1.0, 0.0);
+		double ny_x = rot_x(-angle, 0.0, 1.0);
+		double ny_y = rot_y(-angle, 0.0, 1.0);
+		double x0 = rot_x(-angle, -width / 2.0, -height / 2) + width / 2.0;
+		double y0 = rot_y(-angle, -width / 2.0, -height / 2) + height / 2.0;
+		for (int y = 0; y < height; y++) {
+			double x1 = x0;
+			double y1 = y0;
+			for (int x = 0; x < width; x++) {
+				int xx = (int) x1;
+				int yy = (int) y1;
+				// default color
+				int col = 0;
+				if (xx < 0 || xx >= width || yy < 0 || yy >= height)
+					col = 0xffff00ff;
+				else
+					col = pixels[xx + yy * width];
+				result[x + y * width] = col;
+				x1 += nx_x;
+				y1 += nx_y;
+			}
+			x0 += ny_x;
+			y0 += ny_y;
+		}
+		return result;
+	}
+
+	private static double rot_x(double angle, double x, double y) {
+		double cos = Math.cos(angle - Math.PI / 2);
+		double sin = Math.sin(angle - Math.PI / 2);
+		return x * cos + y * -sin;
+	}
+
+	private static double rot_y(double angle, double x, double y) {
+		double cos = Math.cos(angle - Math.PI / 2);
+		double sin = Math.sin(angle - Math.PI / 2);
+		return x * sin + y * cos;
+	}
+
 	public static Sprite[] split(SpriteSheet sheet) {
 		int amount = (sheet.getWidth() * sheet.getHeight()) / (sheet.WIDTH * sheet.HEIGHT); // amout of sprites
 		Sprite[] sprites = new Sprite[amount];
@@ -138,7 +187,9 @@ public class Sprite {
 	private void load() {
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				pixels[x + y * width] = sheet.pixels[(x + this.x) + (y + this.y) * sheet.WIDTH]; // set every single sprite in SpriteSheet
+				pixels[x + y * width] = sheet.pixels[(x + this.x) + (y + this.y) * sheet.WIDTH]; // set every single
+																									// sprite in
+																									// SpriteSheet
 			}
 		}
 	}

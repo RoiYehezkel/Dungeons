@@ -12,11 +12,13 @@ public class WizardProjectile extends Projectile {
 		range = 200;
 		speed = 4;
 		damage = 20;
-		sprite = Sprite.projectile_wizard; // weapon
+		sprite = Sprite.rotate(Sprite.projectile_arrow, angle); // weapon
 		// create vector for direction of projectile
 		nx = speed * Math.cos(angle);
 		ny = speed * Math.sin(angle);
 	}
+
+	// private int time = 0;
 
 	public void update() {
 		if (level.tileCollision((int) (x + nx), (int) (y + ny), 7, 4, 4)) // remove projectile when he touch wall
@@ -24,6 +26,10 @@ public class WizardProjectile extends Projectile {
 			level.add(new ParticleSpawner((int) x, (int) y, 44, 50, level)); // create the particles
 			remove();
 		}
+		// time++;
+		// if (time % 2 == 0) {
+		// sprite = Sprite.rotate(sprite, Math.PI / 20.0);
+		// }
 		move();
 	}
 
@@ -35,7 +41,8 @@ public class WizardProjectile extends Projectile {
 	}
 
 	private double distance() {
-		// calculate the distance from the player for projectile to remove them from list
+		// calculate the distance from the player for projectile to remove them from
+		// list
 		double dist = 0;
 		dist = Math.sqrt(Math.abs((xOrigin - x) * (xOrigin - x) + (yOrigin - y) * (yOrigin - y)));
 		return dist;

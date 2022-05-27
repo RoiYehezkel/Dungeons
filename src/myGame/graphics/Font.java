@@ -16,16 +16,32 @@ public class Font {
 
 	}
 
-	public void render(String text, Screen screen) {
-		int x = 50;
-		int y = 50;
+	public void render(int x, int y, String text, Screen screen) {
+		render(x, y, 0, 0, text, screen);
+	}
+
+	public void render(int x, int y, int color, String text, Screen screen) {
+		render(x, y, 0, color, text, screen);
+	}
+
+	public void render(int x, int y, int spacing, int color, String text, Screen screen) {
+		int xOffset = 0;
+		int line = 0;
 		for (int i = 0; i < text.length(); i++) {
+			xOffset += 16 + spacing;
+			int yOffset = 0;
 			char currentChar = text.charAt(i);
+			if (currentChar == 'g' || currentChar == 'y' || currentChar == 'q' || currentChar == 'p'
+					|| currentChar == 'j' || currentChar == ',')
+				yOffset = 4;
+			if (currentChar == '\n') {
+				line++;
+				xOffset = 0;
+			}
 			int index = charIndex.indexOf(currentChar);
 			if (index == -1)
 				continue;
-			screen.renderSprite(x + i * 16, y, characters[index], false);
+			screen.renderTextCharacter(x + xOffset, y + line * 20 + yOffset, characters[index], color, false);
 		}
-
 	}
 }

@@ -2,7 +2,7 @@ package util;
 
 public class Vector2i {
 
-	private int x, y;
+	public int x, y;
 
 	public Vector2i() {
 		set(0, 0);

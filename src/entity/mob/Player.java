@@ -7,15 +7,19 @@ import myGame.graphics.AnimatedSprite;
 import myGame.graphics.Screen;
 import myGame.graphics.Sprite;
 import myGame.graphics.SpriteSheet;
+import myGame.graphics.ui.UILabel;
+import myGame.graphics.ui.UIManager;
+import myGame.graphics.ui.UIPanel;
 import myGame.input.Keyboard;
 import myGame.input.Mouse;
+import util.Vector2i;
 
 public class Player extends Mob {
 
 	private Keyboard input;
 	private Sprite sprite;
-	//private int anim = 0;
-	//private boolean walking = false;
+	// private int anim = 0;
+	// private boolean walking = false;
 	private AnimatedSprite down = new AnimatedSprite(SpriteSheet.player_down, 32, 32, 3);
 	private AnimatedSprite up = new AnimatedSprite(SpriteSheet.player_up, 32, 32, 3);
 	private AnimatedSprite left = new AnimatedSprite(SpriteSheet.player_left, 32, 32, 3);
@@ -25,17 +29,24 @@ public class Player extends Mob {
 
 	private int fireRate = 0;
 
+	private UIManager ui;
+
 	public Player(Keyboard input) {
 		this.input = input;
-		//sprite = Sprite.player_forward;
+		// sprite = Sprite.player_forward;
 	}
 
 	public Player(int x, int y, Keyboard input) {
 		this.x = x;
 		this.y = y;
 		this.input = input;
-		//sprite = Sprite.player_forward;
+		// sprite = Sprite.player_forward;
 		fireRate = WizardProjectile.FIRE_RATE;
+		// create the ui for the game
+		ui = Game.getUIManager();
+		UIPanel panel = new UIPanel(new Vector2i((300 - 80) * 3, 0), new Vector2i(80 * 3, 168 * 3));
+		ui.addPanel(panel);
+		panel.addComponent(new UILabel(new Vector2i(10, 50), "roi").setColor(0));
 	}
 
 	@Override
