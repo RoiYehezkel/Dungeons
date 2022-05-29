@@ -10,10 +10,8 @@ import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
 
 import entity.mob.Player;
-import myGame.graphics.Font;
 import myGame.graphics.Screen;
 import myGame.graphics.ui.UIManager;
-import myGame.graphics.ui.UIPanel;
 import myGame.input.Keyboard;
 import myGame.input.Mouse;
 import myGame.level.Level;
@@ -22,8 +20,8 @@ import myGame.level.TileCoordinate;
 public class Game extends Canvas implements Runnable {
 	// static variables
 	private static final long serialVersionUID = 1L; // remove a warning in the class name
-	private static int width = 300;
-	private static int height = width / 16 * 9; // giving aspect ration of 16:9
+	private static int width = 300 - 80;
+	private static int height = (width + 80) / 16 * 9; // giving aspect ration of 16:9
 	private static int scale = 3; // scaling the window size, while the render stay the same
 	public static String title = "Rain";
 	// object variables
@@ -37,7 +35,6 @@ public class Game extends Canvas implements Runnable {
 	private static UIManager uiManager;
 
 	private Screen screen; // screen for dealing with the pixels
-	private Font font;
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); // each image will be
 																								// sized by original
 																								// width and height and
@@ -48,7 +45,7 @@ public class Game extends Canvas implements Runnable {
 																							// the image itself)
 
 	public Game() {
-		Dimension size = new Dimension(width * scale, height * scale);
+		Dimension size = new Dimension(width * scale + 80 * 3, height * scale);
 		setPreferredSize(size); // size of the window
 
 		screen = new Screen(width, height);
@@ -57,9 +54,9 @@ public class Game extends Canvas implements Runnable {
 		setFocusable(true);
 		key = new Keyboard();
 		level = Level.spwan; // get platform of the map
-		font = new Font();
 		TileCoordinate playerSpawn = new TileCoordinate(20, 42); // set coordinate for player
-		player = new Player(playerSpawn.x(), playerSpawn.y(), key); // create new player with coordinate on the map
+		player = new Player("Roi", playerSpawn.x(), playerSpawn.y(), key); // create new player with coordinate on the
+																			// map
 		level.add(player); // add player character to the game
 		addKeyListener(key);
 		Mouse mouse = new Mouse();
@@ -160,7 +157,7 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		Graphics g = bs.getDrawGraphics();
-		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+		g.drawImage(image, 0, 0, width * scale, height * scale, null);
 		uiManager.render(g); // render the ui to the screen
 		g.dispose(); // empty resources of the irrelevant graphics
 		bs.show();

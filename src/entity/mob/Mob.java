@@ -9,6 +9,8 @@ public abstract class Mob extends Entity {
 
 	protected boolean moving = false;
 	protected boolean walking = false;
+	
+	protected int health;
 
 	protected enum Direction {
 		UP, DOWN, RIGHT, LEFT
@@ -66,7 +68,7 @@ public abstract class Mob extends Entity {
 	public abstract void render(Screen screen);
 
 	protected void shoot(double x, double y, double dir) {
-		//dir = dir * (180 / Math.PI);
+		// dir = dir * (180 / Math.PI);
 		Projectile p = new WizardProjectile(x, y, dir);
 		level.add(p);
 
@@ -83,7 +85,7 @@ public abstract class Mob extends Entity {
 			if (c % 2 == 0) // check for the left bound
 				ix = (int) Math.floor(xt);
 			if (c / 2 == 0) // check for the lower bound
-				iy = (int) Math.floor(yt);
+				iy = (int) Math.floor(yt) + 1;
 			if (level.getTile(ix, iy).solid())
 				solid = true; // there is a collision
 		}

@@ -6,8 +6,8 @@ import util.Vector2i;
 
 public class UIComponent {
 
-	public Vector2i position, offset;
-	public int backgroundColor;
+	public Vector2i position;
+	protected Vector2i offset;
 	public Color color;
 
 	public UIComponent(Vector2i position) {

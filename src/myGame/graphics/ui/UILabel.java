@@ -8,6 +8,7 @@ import util.Vector2i;
 public class UILabel extends UIComponent {
 	public String text;
 	private Font font;
+	public boolean shadow;
 
 	public UILabel(Vector2i position, String text) {
 		super(position);
@@ -22,6 +23,11 @@ public class UILabel extends UIComponent {
 	}
 
 	public void render(Graphics g) {
+		if (shadow) {
+			g.setColor(Color.BLACK);
+			g.setFont(font);
+			g.drawString(text, position.x + offset.x + 2, position.y + offset.y + 2);
+		}
 		g.setColor(color);
 		g.setFont(font);
 		g.drawString(text, position.x + offset.x, position.y + offset.y);

@@ -10,12 +10,15 @@ import myGame.graphics.SpriteSheet;
 import myGame.graphics.ui.UILabel;
 import myGame.graphics.ui.UIManager;
 import myGame.graphics.ui.UIPanel;
+import myGame.graphics.ui.UIProgressBar;
 import myGame.input.Keyboard;
 import myGame.input.Mouse;
 import util.Vector2i;
+import java.awt.Font;
 
 public class Player extends Mob {
 
+	private String name;
 	private Keyboard input;
 	private Sprite sprite;
 	// private int anim = 0;
@@ -30,13 +33,17 @@ public class Player extends Mob {
 	private int fireRate = 0;
 
 	private UIManager ui;
+	private UIProgressBar uiHealthBar;
 
-	public Player(Keyboard input) {
+	public Player(String name, Keyboard input) {
+		this.name = name;
 		this.input = input;
+		health = 100;
 		// sprite = Sprite.player_forward;
 	}
 
-	public Player(int x, int y, Keyboard input) {
+	public Player(String name, int x, int y, Keyboard input) {
+		this.name = name;
 		this.x = x;
 		this.y = y;
 		this.input = input;
@@ -44,9 +51,28 @@ public class Player extends Mob {
 		fireRate = WizardProjectile.FIRE_RATE;
 		// create the ui for the game
 		ui = Game.getUIManager();
-		UIPanel panel = new UIPanel(new Vector2i((300 - 80) * 3, 0), new Vector2i(80 * 3, 168 * 3));
+		UIPanel panel = (UIPanel) new UIPanel(new Vector2i((300 - 80) * 3, 0), new Vector2i(80 * 3, 168 * 3))
+				.setColor(0x4f4f4f);
 		ui.addPanel(panel);
-		panel.addComponent(new UILabel(new Vector2i(10, 50), "roi").setColor(0));
+		UILabel nameLabel = new UILabel(new Vector2i(40, 200), name);
+		nameLabel.setColor(0xbbbbbb);
+		nameLabel.setFont(new Font("Verdana", Font.PLAIN, 24));
+		nameLabel.shadow = true;
+		panel.addComponent(nameLabel);
+		uiHealthBar = new UIProgressBar(new Vector2i(10, 215), new Vector2i(80 * 3 - 20, 20));
+		uiHealthBar.setColor(0x6a6a6a);
+		uiHealthBar.setForegroundColor(0xee3030);
+		panel.addComponent(uiHealthBar);
+		UILabel hpLabel = new UILabel(new Vector2i(uiHealthBar.position).add(new Vector2i(2, 16)), "HP");
+		hpLabel.setColor(0xffffff);
+		hpLabel.setFont(new Font("Verdana", Font.PLAIN, 18));
+		panel.addComponent(hpLabel);
+		// player default health rate
+		health = 100;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	@Override
@@ -81,6 +107,7 @@ public class Player extends Mob {
 		}
 		clear();
 		updateShooting();
+		uiHealthBar.setProgress(health / 100.0);
 	}
 
 	private void clear() {
