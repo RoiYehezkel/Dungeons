@@ -7,14 +7,23 @@ import myGame.graphics.AnimatedSprite;
 import myGame.graphics.Screen;
 import myGame.graphics.Sprite;
 import myGame.graphics.SpriteSheet;
+import myGame.graphics.ui.UIButton;
+import myGame.graphics.ui.UIButtonListener;
 import myGame.graphics.ui.UILabel;
 import myGame.graphics.ui.UIManager;
 import myGame.graphics.ui.UIPanel;
 import myGame.graphics.ui.UIProgressBar;
+import myGame.graphics.ui.UIActionListener;
 import myGame.input.Keyboard;
 import myGame.input.Mouse;
 import util.Vector2i;
 import java.awt.Font;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Player extends Mob {
 
@@ -34,6 +43,8 @@ public class Player extends Mob {
 
 	private UIManager ui;
 	private UIProgressBar uiHealthBar;
+	private UIButton button;
+	private BufferedImage image, imageHover;
 
 	public Player(String name, Keyboard input) {
 		this.name = name;
@@ -69,6 +80,62 @@ public class Player extends Mob {
 		panel.addComponent(hpLabel);
 		// player default health rate
 		health = 100;
+		button = new UIButton(new Vector2i(10, 260), new Vector2i(100, 30), new UIActionListener() {
+			public void perform() {
+				System.out.println("pressed");
+				// System.exit(0);
+			}
+		});
+		button.setButtonListener(new UIButtonListener() {
+			public void pressed(UIButton button) {
+				super.pressed(button);
+				button.performAction();
+				button.ignoreNextPress();
+			}
+		});
+		button.setText("hello");
+		panel.addComponent(button);
+		try {
+			image = ImageIO.read(new File("res/textures/sheets/home.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		imageHover = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		int[] newPixels = ((DataBufferInt) imageHover.getRaster().getDataBuffer()).getData();
+		for (int yyy = 0; yyy < image.getHeight(); yyy++) {
+			for (int xxx = 0; xxx < image.getWidth(); xxx++) {
+				newPixels[xxx + yyy * image.getWidth()] = image.getRGB(xxx, yyy);
+			}
+		}
+		for (int yy = 0; yy < image.getHeight(); yy++) {
+			for (int xx = 0; xx < image.getWidth(); xx++) {
+				int color = newPixels[xx + yy * image.getWidth()];
+				int r = (color & 0xff0000) >> 16;
+				int g = (color & 0xff00) >> 8;
+				int b = color & 0xff;
+				r += 100;
+				g += 100;
+				b += 100;
+				color &= 0xff000000;
+				newPixels[xx + yy * image.getWidth()] = color | r << 16 | g << 8 | b;
+			}
+		}
+		UIButton imageButton = new UIButton(new Vector2i(10, 360), image, new UIActionListener() {
+			public void perform() {
+				System.out.println("pressed");
+			}
+		});
+		imageButton.setButtonListener(new UIButtonListener() {
+			public void entered(UIButton button) {
+				button.setImage(imageHover);
+			}
+
+			public void exited(UIButton button) {
+				button.setImage(image);
+			}
+		});
+		panel.addComponent(imageButton);
+
 	}
 
 	public String getName() {

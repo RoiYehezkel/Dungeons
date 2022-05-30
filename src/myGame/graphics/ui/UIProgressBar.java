@@ -40,7 +40,6 @@ public class UIProgressBar extends UIComponent {
 	public void render(Graphics g) {
 		g.setColor(color);
 		g.fillRect(position.x + offset.x, position.y + offset.y, size.x, size.y);
-
 		g.setColor(foregroundColor);
 		g.fillRect(position.x + offset.x, position.y + offset.y, (int) (progress * size.x), size.y);
 	}
