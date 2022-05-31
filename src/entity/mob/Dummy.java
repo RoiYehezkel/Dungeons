@@ -24,7 +24,7 @@ public class Dummy extends Mob {
 	}
 
 	@Override
-	public void update() {
+	public void update(Player player) {
 		time++;
 		// set the direction of dummy
 		if (time % (rand.nextInt(50) + 30) == 0) {

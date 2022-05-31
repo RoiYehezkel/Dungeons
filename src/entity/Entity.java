@@ -2,6 +2,7 @@ package entity;
 
 import java.util.Random;
 
+import entity.mob.Player;
 import myGame.graphics.Screen;
 import myGame.graphics.Sprite;
 import myGame.level.Level;
@@ -24,7 +25,7 @@ public abstract class Entity {
 
 	}
 
-	public void update() {
+	public void update(Player player) {
 
 	}
 

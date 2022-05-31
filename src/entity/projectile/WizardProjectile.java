@@ -1,5 +1,6 @@
 package entity.projectile;
 
+import entity.mob.Player;
 import entity.spawner.ParticleSpawner;
 import myGame.graphics.Screen;
 import myGame.graphics.Sprite;
@@ -20,10 +21,14 @@ public class WizardProjectile extends Projectile {
 
 	// private int time = 0;
 
-	public void update() {
+	public void update(Player player) {
 		if (level.tileCollision((int) (x + nx), (int) (y + ny), 7, 4, 4)) // remove projectile when he touch wall
 		{
 			level.add(new ParticleSpawner((int) x, (int) y, 44, 50, level)); // create the particles
+			remove();
+		}
+		if (Math.abs((x + nx) - player.getX()) < 5 && Math.abs((y + ny) - player.getY()) < 5) {
+			player.updateHealth();
 			remove();
 		}
 		// time++;

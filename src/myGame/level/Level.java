@@ -56,19 +56,19 @@ public class Level {
 
 	}
 
-	public void update() {
+	public void update(Player player) {
 		// update list of projectile to render
 		for (int i = 0; i < entities.size(); i++) {
-			entities.get(i).update();
+			entities.get(i).update(player);
 		}
 		for (int i = 0; i < projectiles.size(); i++) {
-			projectiles.get(i).update();
+			projectiles.get(i).update(player);
 		}
 		for (int i = 0; i < particles.size(); i++) {
 			particles.get(i).update();
 		}
 		for (int i = 0; i < players.size(); i++) {
-			players.get(i).update();
+			players.get(i).update(player);
 		}
 		remove();
 	}

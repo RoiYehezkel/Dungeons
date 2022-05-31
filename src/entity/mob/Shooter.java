@@ -3,6 +3,7 @@ package entity.mob;
 import java.util.List;
 
 import entity.Entity;
+import entity.projectile.WizardProjectile;
 import myGame.graphics.AnimatedSprite;
 import myGame.graphics.Screen;
 import myGame.graphics.Sprite;
@@ -22,15 +23,17 @@ public class Shooter extends Mob {
 	private int xa = 0;
 	private int ya = 0;
 	private Entity random = null;
+	private int fireRate = 0;
 
 	public Shooter(int x, int y) {
 		this.x = x << 4;
 		this.y = y << 4;
 		sprite = Sprite.dummy;
+		fireRate = WizardProjectile.FIRE_RATE;
 	}
 
 	@Override
-	public void update() {
+	public void update(Player player) {
 		time++;
 		// set the direction of dummy
 		if (time % (rand.nextInt(50) + 30) == 0) {
@@ -45,6 +48,8 @@ public class Shooter extends Mob {
 			animSprite.update();
 		else
 			animSprite.setFrame(0);
+		if (fireRate > 0) // count for shooting
+			fireRate--;
 		if (ya < 0) {
 			animSprite = up;
 			dir = Direction.UP;
@@ -60,52 +65,58 @@ public class Shooter extends Mob {
 			dir = Direction.RIGHT;
 		}
 		if (xa != 0 || ya != 0) {
-			//move(xa, ya);
+			move(xa, ya);
 			walking = true;
 		} else {
 			walking = false;
 		}
 		shootRandom();
-
 	}
 
 	private void shootRandom() {
-		if (time % (30 + rand.nextInt(91)) == 0) {
-			List<Entity> entities = level.getEntities(this, 500);
-			entities.add(level.getClientPlayer());
-			int index = rand.nextInt(entities.size());
-			random = entities.get(index);
-		}
-		if (random != null) {
-			double dx = random.getX() - x;
-			double dy = random.getY() - y;
-			double dir = Math.atan2(dy, dx);
-			shoot(x, y, dir);
-		}
-
-	}
-
-	private void shootClosest() {
-		List<Entity> entities = level.getEntities(this, 500);
-		entities.add(level.getClientPlayer());
-
-		double min = 0;
-		Entity closest = null;
-		for (int i = 0; i < entities.size(); i++) {
-			Entity e = entities.get(i);
-			double distance = Vector2i.getDistance(new Vector2i((int) x, (int) y), new Vector2i((int) e.getX(), (int) e.getY()));
-			if (i == 0 || distance < min) {
-				min = distance;
-				closest = e;
+		if (fireRate <= 0) {
+			if (time % (30 + rand.nextInt(91)) == 0) {
+				List<Entity> entities = level.getEntities(this, 500);
+				entities.add(level.getClientPlayer());
+				int index = rand.nextInt(entities.size());
+				random = entities.get(index);
+			}
+			if (random != null) {
+				double dx = random.getX() - x;
+				double dy = random.getY() - y;
+				double dir = Math.atan2(dy, dx);
+				shoot(x, y, dir);
+				fireRate = WizardProjectile.FIRE_RATE;
 			}
 		}
-		if (closest != null) {
-			double dx = closest.getX() - x;
-			double dy = closest.getY() - y;
-			double dir = Math.atan2(dy, dx);
-			shoot(x, y, dir);
-		}
+
 	}
+
+//	private void shootClosest() {
+//		if (fireRate <= 0) {
+//			List<Entity> entities = level.getEntities(this, 500);
+//			entities.add(level.getClientPlayer());
+//			double min = 0;
+//			Entity closest = null;
+//			for (int i = 0; i < entities.size(); i++) {
+//				Entity e = entities.get(i);
+//				double distance = Vector2i.getDistance(new Vector2i((int) x, (int) y),
+//						new Vector2i((int) e.getX(), (int) e.getY()));
+//				if (i == 0 || distance < min) {
+//					min = distance;
+//					closest = e;
+//				}
+//
+//			}
+//			if (closest != null) {
+//				double dx = closest.getX() - x;
+//				double dy = closest.getY() - y;
+//				double dir = Math.atan2(dy, dx);
+//				shoot(x, y, dir);
+//				fireRate = WizardProjectile.FIRE_RATE;
+//			}
+//		}
+//	}
 
 	@Override
 	public void render(Screen screen) {

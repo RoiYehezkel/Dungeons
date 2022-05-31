@@ -58,7 +58,7 @@ public class Chaser extends Mob {
 	}
 
 	@Override
-	public void update() {
+	public void update(Player player) {
 		move();
 		if (walking)
 			animSprite.update();

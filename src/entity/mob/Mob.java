@@ -63,7 +63,7 @@ public abstract class Mob extends Entity {
 		return 1;
 	}
 
-	public abstract void update();
+	public abstract void update(Player player);
 
 	public abstract void render(Screen screen);
 

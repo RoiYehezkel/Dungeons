@@ -71,7 +71,7 @@ public class Star extends Mob {
 	}
 
 	@Override
-	public void update() {
+	public void update(Player player) {
 		time++;
 		move();
 		if (walking)
